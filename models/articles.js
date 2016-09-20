@@ -1,20 +1,23 @@
 // Include the Mongoose Dependencies
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var ArticleSchema = mongoose.Schema;
 
 
 // Create a Schema for capturing clicks. We'll use clickID to update the same clickCounter
-var ClickSchema = new Schema({
-  clicks: {
-    type: Number,
+var ArticleSchema = new Schema({
+  title: {
+    type: String
   },
-  clickID: {
-      type: String
+  date:{
+    type: Date,
+    default: Date.now
+  },
+  url: {
+    type: String
   }
-});
 
 // Create the Model
-var Click = mongoose.model('Click', ClickSchema);
+var Article = mongoose.model('Article', ArticleSchema);
 
 // Export it for use elsewhere
 module.exports = Click;
