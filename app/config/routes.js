@@ -7,12 +7,25 @@ var Route = Router.Route;
 //  Include the IndexRoute (catch-all route)
 var IndexRoute  = Router.IndexRoute;
 
-var Main = require('../components/Main.js');
+var Main = require('../components/Main');
+var Search = require('../components/Children/Search'); 
+var Saved = require('../components/Children/Saved'); 
 
-
-
+// Export the Routes
 module.exports = (
-    <Route path='/' component={Main}>
 
-    </Route>
+  /*High level component is the Main component*/
+  <Route path='/' component={Main}>
+
+    {/* If user selects Info or Chat show the appropriate component*/}
+    <Route path='Saved' component={Saved} />
+    <Route path='Search' component={Search} />
+    {/*If user selects any other path... we get the Home Route*/}
+    <IndexRoute component={Search} />
+
+
+  </Route>
+
+
 );
+

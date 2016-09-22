@@ -1,19 +1,26 @@
 // Include React 
 var React = require('react');
 
-// Here we include all of the sub-components
-var Saved = require('./Children/Saved');
-var Search = require('./Children/Search');
-// Helper Function
-var helpers = require('./utils/helpers.js');
 
+// Helper Function
+var helpers = require('./utils/helpers');
 // This is the main component. 
 var Main = React.createClass({
+  render: function(){
+    
 
+    return(
 
+      <div className="container">
+        <div className="row">
+          <div className="jumbotron">
+            <h3>Hello, This is Main.js file connecting to app</h3>
+          </div>
+        </div>
+      </div>
+    )
 
-
-
+  }
 });
 
-  module.exports = Main;
+module.exports = Main;
