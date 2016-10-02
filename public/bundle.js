@@ -19759,14 +19759,55 @@
 	// Include React 
 	var React = __webpack_require__(1);
 
+	var Search = __webpack_require__(180);
+	var Saved = __webpack_require__(181);
+	var Results = __webpack_require__(182);
+
 	// Helper Function
 	var helpers = __webpack_require__(160);
 	// This is the main component. 
 	var Main = React.createClass({
 	  displayName: 'Main',
 
-	  render: function render() {
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      searchTerm: "",
+	      startYear: "",
+	      endYear: "",
+	      search: "",
+	      saved: []
+
+	    };
+	  },
+
+	  setTerm: function setTerm(searchTerm, startYear, endYear) {
+	    this.setState({
+	      searchTerm: searchTerm,
+	      startYear: startYear,
+	      endYear: endYear
+	    });
+	  },
+
+	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+
+	    if (prevState.searchTerm != this.state.searchTerm) {
+	      console.log("UPDATED");
+
+	      helpers.runQuery(this.state.searchTerm).then(function (data) {
+	        if (data != this.state.results) {
+	          console.log("HERE");
+	          console.log(data);
+
+	          this.setState({
+	            results: data
+	          });
+	        }
+	      }.bind(this));
+	    }
+	  },
+
+	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { className: 'container' },
@@ -19777,10 +19818,46 @@
 	          'div',
 	          { className: 'jumbotron' },
 	          React.createElement(
-	            'h3',
-	            null,
-	            'Hello, This is Main.js file connecting to app'
+	            'h1',
+	            { className: 'text-center' },
+	            React.createElement(
+	              'strong',
+	              null,
+	              'New York Times Search'
+	            )
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'text-center' },
+	            React.createElement(
+	              'em',
+	              null,
+	              'Enter a search term'
+	            )
 	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-sm-12' },
+	            React.createElement(Search, { setTerm: this.setTerm })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-sm-12' },
+	            React.createElement(Results, { address: this.state.results })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(Saved, { saved: this.state.saved })
 	        )
 	      )
 	    );
@@ -19809,7 +19886,7 @@
 	    console.log(location);
 
 	    //Figure out the 
-	    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + searchTerm + "&page=0&sort=newest&begin_date=" + startYear + "0101&end_date=" + endYear + "0101&api-key=" + key;
+	    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + searchTerm + "&page=0&sort=newest&begin_date=" + startYear + "0101&end_date=" + endYear + "0101&api-key=" + APIKey;
 
 	    return axios.get(queryURL).then(function (response) {
 
@@ -21034,6 +21111,67 @@
 	  };
 	};
 
+
+/***/ },
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// Include React 
+	var React = __webpack_require__(1);
+
+	// Component creation
+	var Search = React.createClass({
+	  displayName: 'Search'
+	});
+
+	// Export the component back for use in other files
+	module.exports = Search;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// Include React 
+	var React = __webpack_require__(1);
+
+	// Component creation
+	var Saved = React.createClass({
+	  displayName: 'Saved'
+	});
+	// Export the component back for use in other files
+	module.exports = Saved;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	// Include React 
+	var React = __webpack_require__(1);
+
+	// Component creation
+	var Results = React.createClass({
+	  displayName: "Results",
+
+
+	  // Here we render the function
+	  render: function render() {
+
+	    return React.createElement(
+	      "div",
+	      null,
+	      console.log("Results: ", this.props.articles)
+	    );
+	  }
+	});
+
+	// Export the component back for use in other files
+	module.exports = Results;
 
 /***/ }
 /******/ ]);
