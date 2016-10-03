@@ -13,19 +13,16 @@ var Main = React.createClass({
     getInitialState: function(){
       return{
         searchTerm: "",
-        startYear: "",
-        endYear: "",
-        search: "",
+        results: "",
         saved: []
       
       }
     },
 
-    setTerm: function(searchTerm, startYear, endYear){
+    setTerm: function(term){
       this.setState({
-        searchTerm: searchTerm,
-        startYear: startYear,
-        endYear: endYear
+        searchTerm: term,
+        
       })
     },
 
@@ -38,16 +35,50 @@ var Main = React.createClass({
         .then(function(data){
           if (data != this.state.results)
           {
-            console.log("HERE");
+            console.log("Article");
             console.log(data);
 
             this.setState({
               results: data
-            })    
-          }
+            })  
+       helpers.postHistory(this.state.searchTerm)
+              .then(function(data){
+                console.log("Updated!");
+
+            
+             helpers.getHistory()
+                  .then(function(response){
+                    console.log("Saved Current", response.data);
+                    if (response != this.state.saved){
+                      console.log ("Saved", response.data);
+
+                      this.setState({
+                        saved: response.data
+                      })
+                    }
+                }.bind(this))   
+          
         }.bind(this))
+       
       }
-     },     
+    }.bind(this))          
+  }
+},    
+    // The moment the page renders get the History
+  componentDidMount: function(){
+
+    // Get the latest history.
+    helpers.getHistory()
+      .then(function(response){
+        if (response != this.state.saved){
+          console.log ("Saved", response.data);
+
+          this.setState({
+            saved: response.data
+          })
+        }
+      }.bind(this))
+  }, 
     
 render: function(){
     return(

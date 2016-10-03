@@ -9,7 +9,16 @@ var Results = React.createClass({
 
     return(
 
-     <div>{console.log("Results: ", this.props.articles)}
+     <div className="panel panel-default">
+        <div className="panel-heading">
+          <h3 className="panel-title text-center">Results</h3>
+        </div>
+        <div className="panel-body text-center">
+
+            <h1>Articles:</h1>
+            <p>{this.props.articles}</p>
+
+        </div>
       </div>
 
     )
